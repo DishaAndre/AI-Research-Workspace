@@ -5,18 +5,28 @@ function MainLayout() {
     <div className="min-h-screen flex flex-col">
 
       {/* Navbar */}
-      <nav className="bg-black text-white p-4 flex justify-between">
-        <div className="font-bold">AI Research Workspace</div>
+      <nav className="bg-black text-white px-6 py-4 flex justify-between items-center">
+        <h1 className="font-bold text-lg">
+          AI Research Workspace
+        </h1>
 
         <div className="flex gap-4">
-          <Link to="/" className="hover:text-gray-300">Home</Link>
-          <Link to="/dashboard" className="hover:text-gray-300">Dashboard</Link>
-          <Link to="/login" className="hover:text-gray-300">Login</Link>
+          <Link className="hover:text-gray-300" to="/">
+            Home
+          </Link>
+
+          <Link className="hover:text-gray-300" to="/dashboard">
+            Dashboard
+          </Link>
+
+          <Link className="hover:text-gray-300" to="/login">
+            Login
+          </Link>
         </div>
       </nav>
 
       {/* Page Content */}
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-6 bg-gray-50">
         <Outlet />
       </main>
 
