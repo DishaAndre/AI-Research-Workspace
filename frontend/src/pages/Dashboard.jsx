@@ -29,7 +29,6 @@ export default function Dashboard() {
     }
   };
 
-  // REAL WORLD UPDATE: Communicates with your live backend /api/documents pipeline
   const handleAnalyzeDocument = async () => {
     if (!selectedFile) return;
 
@@ -56,7 +55,6 @@ export default function Dashboard() {
 
       setExtractedSummary(data.summary || 'Ingestion complete. Document core contents indexed and optimized for AI agent context vectors.');
       
-      // Inject standard initialization message into Chat UI
       setChatHistory([
         { sender: 'system', text: `Successfully parsed document vector structural maps for: ${selectedFile.name}` }
       ]);
@@ -68,7 +66,6 @@ export default function Dashboard() {
     }
   };
 
-  // REAL WORLD UPDATE: Routes prompt context down to the live AI agent cluster
   const handleAskQuestion = async (e) => {
     e.preventDefault();
     if (!chatQuestion.trim()) return;
@@ -148,9 +145,12 @@ export default function Dashboard() {
           </Card>
 
           {extractedSummary && (
-            <div className="flex-1 min-h-[250px]">
+            <div className="w-full">
               <Card title="Extracted Core Outlines" description="Synthesized operational insights and primary themes mapped from the source text.">
-                <div className="text-sm text-gray-600 leading-relaxed font-medium bg-gray-50/60 border border-gray-100 p-4 rounded-xl max-h-[350px] overflow-y-auto whitespace-pre-line">
+                <div 
+                  style={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}
+                  className="text-sm text-gray-600 leading-relaxed font-medium bg-gray-50/60 border border-gray-100 p-4 rounded-xl max-h-[350px] overflow-y-auto w-full"
+                >
                   {extractedSummary}
                 </div>
               </Card>
