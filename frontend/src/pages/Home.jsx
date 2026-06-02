@@ -6,16 +6,14 @@ export default function Home() {
   const navigate = useNavigate();
 
   // Read the active live session verification key directly from local memory
-  const isAuthenticated = localStorage.getItem('userToken') === 'true';
+  const isAuthenticated = localStorage.getItem('userToken') === 'true' && !!localStorage.getItem('token');
 
   // Handle the "Get Started Free" action route dynamically
   const handleGetStarted = () => {
     if (isAuthenticated) {
-      // User has active token credentials -> Route directly to dashboard
       navigate('/dashboard');
     } else {
-      // No active token found -> Send to standard login authentication gate
-      navigate('/login');
+      navigate('/register'); 
     }
   };
 
@@ -38,13 +36,11 @@ export default function Home() {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-md mt-2">
-          {/* Dynamically Routed Primary Action Trigger */}
           <Button 
             text="Get Started Free" 
             variant="primary" 
             onClick={handleGetStarted} 
           />
-          
           <Button 
             text="Go to Workspace" 
             variant="secondary" 
