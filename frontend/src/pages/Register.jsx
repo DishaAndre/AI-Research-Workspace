@@ -2,25 +2,27 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Input, Button } from '../components';
 
-export default function Login() {
+export default function Register() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
 
     if (!email || !password) {
-      setError('Please fill in all layout fields.');
+      setError('Please fill out all registration fields.');
       return;
     }
 
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:5000/api/auth/login', {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -29,14 +31,19 @@ export default function Login() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Authentication failed.');
+        throw new Error(data.message || 'Registration pipeline failed.');
       }
 
-      // Save crypto token states natively 
-      localStorage.setItem('userToken', 'true');
-      localStorage.setItem('token', data.token);  
+      setSuccess('Account created successfully! Redirecting...');
       
-      navigate('/dashboard');
+      // Store session verification states natively
+      localStorage.setItem('userToken', 'true');
+      localStorage.setItem('token', data.token);
+
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1500);
+
     } catch (err) {
       setError(err.message);
     } finally {
@@ -60,13 +67,19 @@ export default function Login() {
         </div>
 
         <div className="flex flex-col gap-1">
-          <h2 className="text-2xl font-black text-gray-900 tracking-tight">Account Sign In</h2>
-          <p className="text-sm text-gray-500">Secure entry access layer to your documents and session streams.</p>
+          <h2 className="text-2xl font-black text-gray-900 tracking-tight">Create Academic Account</h2>
+          <p className="text-sm text-gray-500">Register your profile to initialize secure workspace memory arrays.</p>
         </div>
 
         {error && (
           <div className="p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-sm font-semibold">
             {error}
+          </div>
+        )}
+
+        {success && (
+          <div className="p-3 bg-green-50 border border-green-200 text-green-600 rounded-lg text-sm font-semibold">
+            {success}
           </div>
         )}
 
@@ -87,7 +100,7 @@ export default function Login() {
           />
           
           <Button 
-            text={loading ? "Authenticating..." : "Authenticate Workspace"} 
+            text={loading ? "Registering Profile..." : "Register System Profile"} 
             variant="primary" 
             type="submit"
             disabled={loading}
@@ -95,9 +108,9 @@ export default function Login() {
         </form>
 
         <div className="text-center text-sm text-gray-600 font-medium">
-          New to the platform?{' '}
-          <Link to="/register" className="text-blue-600 hover:underline font-bold">
-            Create an account
+          Already registered?{' '}
+          <Link to="/login" className="text-blue-600 hover:underline font-bold">
+            Sign In here
           </Link>
         </div>
       </div>
